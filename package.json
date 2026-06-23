@@ -1,6 +1,6 @@
 {
   "name": "@editor-x/wme-logstream",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Lightweight structured logging, state tracking, and IndexedDB persistence library for Waze Map Editor (WME) userscripts and extensions.",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
