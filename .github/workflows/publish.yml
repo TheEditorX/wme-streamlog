@@ -1,0 +1,60 @@
+name: Publish to npm and GitHub Packages
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build package
+        run: npm run build
+
+      - name: Determine NPM tag
+        id: determine_tag
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [[ "$VERSION" == *"-"* ]]; then
+            echo "NPM_TAG=next" >> $GITHUB_ENV
+            echo "Publishing pre-release version $VERSION under 'next' tag."
+          else
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+            echo "Publishing stable version $VERSION under 'latest' tag."
+          fi
+
+      # 1. Publish to public npm registry
+      - name: Publish to npmjs.com
+        run: npm publish --tag $NPM_TAG
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # 2. Publish to GitHub Packages (handles renaming scope if they differ)
+      - name: Set GitHub Packages Scope & Publish
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json'));
+            pkg.name = '@theeditorx/wme-logstream';
+            pkg.publishConfig = { registry: 'https://npm.pkg.github.com' };
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+          npm publish --tag $NPM_TAG
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
