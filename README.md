@@ -110,7 +110,7 @@ const logger = LogStream.create({
   persist: true,
   dbPrefix: 'MyScriptDB',
   scriptVersion: '1.0.0',
-  wmeSDK: (window as any).WazeMapEditorSDK, // optional
+  wmeSDK: getWmeSdk({ scriptId: 'myscript', scriptName: 'MyScript' }), // Recommended. Pass an SDK instance.
   brand: { prefix: 'MyScript' },
 });
 
