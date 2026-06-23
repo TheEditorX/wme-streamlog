@@ -1,0 +1,51 @@
+{
+  "name": "@editor-x/wme-logstream",
+  "version": "0.1.0-alpha.0",
+  "description": "Lightweight structured logging, state tracking, and IndexedDB persistence library for Waze Map Editor (WME) userscripts and extensions.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "rollup -c",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [],
+  "author": "David Slutsky",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "jsondiffpatch": "^0.7.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/node": "^26.0.0",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "fake-indexeddb": "^6.2.5",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.4",
+    "rollup": "^4.62.2",
+    "tslib": "^2.8.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.0",
+    "vitest": "^4.1.9",
+    "wme-sdk-typings": "https://www.waze.com/editor/sdk/wme-sdk-typings.tgz"
+  }
+}
